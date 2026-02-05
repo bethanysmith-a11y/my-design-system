@@ -1,73 +1,137 @@
-# React + TypeScript + Vite
+# My Design System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React component library built on the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/) design language. Components are styled with Tailwind CSS v4 using custom USWDS design tokens and documented in Storybook with embedded Figma design specs.
 
-Currently, two official plugins are available:
+## Storybook
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Browse all components, variants, and interactive docs:
 
-## React Compiler
+**[https://bethanysmith-a11y.github.io/my-design-system/](https://bethanysmith-a11y.github.io/my-design-system/)**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Each component story includes a **Design** tab linking to its corresponding Figma frame.
 
-## Expanding the ESLint configuration
+## Figma
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Components are matched to the USWDS UI Design Kit (Community):
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**[USWDS Figma File](https://www.figma.com/design/QJD8h4L3NhbdvihveM3AMG/U.S.-Web-Design-System--USWDS--UI-Design-Kit--Community-)**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Components
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Category | Components |
+|---|---|
+| **Actions** | Button, ButtonGroup, Search |
+| **Feedback** | Alert, SiteAlert, Modal, Tooltip, Badge |
+| **Forms** | Input, Textarea, ComboBox, DatePicker, FileInput, CharacterCount |
+| **Navigation** | Header, Footer, Breadcrumbs, Pagination, Sidenav, Banner |
+| **Content** | Card, Collection, Table, SummaryBox, Accordion, StepIndicator, Typography |
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20+
+- npm
+
+### Install dependencies
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Run Storybook locally
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run storybook
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Opens at [http://localhost:6006](http://localhost:6006).
+
+### Build static Storybook
+
+```bash
+npm run build-storybook
+```
+
+Output goes to `storybook-static/`.
+
+## Using Components
+
+Import components from `src/components`:
+
+```tsx
+import { Button, Alert, Card } from './components';
+
+function App() {
+  return (
+    <>
+      <Alert type="info" heading="Heads up">
+        This is an informational alert.
+      </Alert>
+
+      <Card title="Card title" mediaSrc="/image.jpg">
+        Card body content goes here.
+      </Card>
+
+      <Button variant="primary" size="big">
+        Get started
+      </Button>
+    </>
+  );
+}
+```
+
+All components are typed with TypeScript. Props and variants are documented in each component's Storybook story.
+
+## Design Tokens
+
+USWDS design tokens are defined in `src/index.css` as a Tailwind v4 `@theme` block:
+
+- **Colors** -- Primary, Secondary, Accent Warm/Cool, Base, Info, Success, Warning, Error
+- **Typography** -- Public Sans font, 9-step heading scale (13px--48px)
+- **Spacing** -- USWDS unit-based scale (4px--80px)
+- **Border radius** -- sm (4px), md (5px), lg (8px)
+- **Shadows** -- sm, md, lg, card
+
+## Tech Stack
+
+- **React 19** + TypeScript
+- **Tailwind CSS v4** with `@tailwindcss/vite`
+- **Storybook 10** with addons: a11y, designs, docs, vitest
+- **Vite 7** for builds
+- **GitHub Actions** for automatic deployment to GitHub Pages
+
+## Project Structure
+
+```
+src/
+  components/
+    Accordion/        # Accordion.tsx + Accordion.stories.tsx
+    Alert/
+    Badge/
+    Banner/
+    Breadcrumbs/
+    Button/
+    ButtonGroup/
+    Card/
+    CharacterCount/
+    Collection/
+    ComboBox/
+    DatePicker/
+    FileInput/
+    Footer/
+    Header/
+    Input/
+    Modal/
+    Pagination/
+    Search/
+    Sidenav/
+    SiteAlert/
+    StepIndicator/
+    SummaryBox/
+    Table/
+    Tooltip/
+    Typography/
+    index.ts          # Barrel export
+  index.css           # Tailwind + USWDS design tokens
 ```
